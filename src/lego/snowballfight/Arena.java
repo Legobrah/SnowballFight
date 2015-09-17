@@ -17,11 +17,9 @@ public class Arena
 	public void setSpawnLoc2(Location newLoc2){arenaSpawn1 = newLoc2;}
 	
 	
-	public Arena(String arenaName, Location arenaSpawn1, Location arenaSpawn2)
+	public Arena(String arenaName)
 	{
 		this.arenaName = arenaName;
-		this.arenaSpawn1 = arenaSpawn1;
-		this.arenaSpawn2 = arenaSpawn2;
 		
 	}
 	

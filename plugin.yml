@@ -1,0 +1,6 @@
+name: SnowballFight
+main: lego.snowballfight.SnowballFight
+version: 1.0
+commands:
+ creatematch:
+ join:

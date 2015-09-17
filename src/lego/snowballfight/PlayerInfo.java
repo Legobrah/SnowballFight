@@ -1,6 +1,6 @@
 package lego.snowballfight;
 
-public class Player
+public class PlayerInfo
 {
 	private String name;
 	public String getName(){return name;}
@@ -13,9 +13,12 @@ public class Player
 	public int getDeaths(){return deaths;}
 	public void addDeath(int deaths){this.deaths += deaths;}
 	
-	public Player(String name)
+	public PlayerInfo(String name)
 	{
 		this.name = name;
+		this.kills = 0;
+		this.deaths = 0;
 	}
 	
+
 }

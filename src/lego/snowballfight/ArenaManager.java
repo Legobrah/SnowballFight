@@ -41,5 +41,18 @@ public class ArenaManager
 		return null;
 		
 	}
+	
+	/**
+	 * Create an arena with the specified name
+	 * 
+	 * @param arenaName The name you want for the new arena
+	 * @return Returns new arena
+	 */
+	public Arena createArena(String arenaName)
+	{
+		Arena arena = new Arena(arenaName);
+		
+		return arena;
+	}
 
 }
