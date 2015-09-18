@@ -2,7 +2,6 @@ package lego.snowballfight;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
@@ -26,16 +25,44 @@ public class Team
 		
 	}
 	
+	/**
+	 * Get count of number of players on the team
+	 * 
+	 * @return the amount of players on the team
+	 */
 	public int getPlayerCount()
 	{
 		return playerList.size();
 	}
 	
+	/**
+	 * Adds specified player to the team
+	 * 
+	 * @param player The player being added to the team
+	 */
 	public void addPlayer(Player player)
 	{
 		PlayerInfo playerInfo = new PlayerInfo(player.getName());
 		playerList.add(playerInfo);
 		
+	}
+	
+	/**
+	 * Check to see if the specified player is on the team
+	 * 
+	 * @param player The player being checked
+	 * @return If true, player is on team, else player is not on team
+	 */
+	public boolean checkIfOnTeam(Player player)
+	{
+		if(playerList.contains(player.getName()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 

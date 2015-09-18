@@ -2,6 +2,7 @@ package lego.snowballfight;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,7 +36,7 @@ public class SnowballFight extends JavaPlugin
 	
 	public static void log(String string)
 	{
-		System.out.println(string);
+		System.out.println("[SnowballFight] " + string);
 	}
 	
 	//Temporary code for debuging
@@ -48,14 +49,15 @@ public class SnowballFight extends JavaPlugin
         }
         
         Player player = (Player) sender;
+        Location playerLoc = player.getLocation();
         
 
         if(cmd.getName().equalsIgnoreCase("creatematch"))
         {
 
-        	if(args.length == 4)
+        	if(args.length == 2)
         	{
-        		mainMatch = new Match(matchID, args[0], args[1],args[2], Integer.parseInt(args[3]));
+        		mainMatch = new Match(matchID, args[0], Integer.parseInt(args[1]));
         	}
         	
         	matchID++;
@@ -65,6 +67,21 @@ public class SnowballFight extends JavaPlugin
         else if(cmd.getName().equalsIgnoreCase("join"))
         {
         	mainMatch.joinPlayer(player);
+        }
+        else if(cmd.getName().equalsIgnoreCase("setspawn"))
+        {
+        	if(args[0].equalsIgnoreCase("team1"))
+        	{
+        		mainMatch.getArena().setSpawnLoc1(playerLoc);
+        		
+        		log("Team 1 spawn set!");
+        	}
+        	else if(args[0].equalsIgnoreCase("team2"))
+        	{
+        		mainMatch.getArena().setSpawnLoc2(playerLoc);
+        		
+        		log("Team 2 spawn set!");
+        	}
         }
         
         return false;
