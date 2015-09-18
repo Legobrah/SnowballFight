@@ -7,7 +7,7 @@ public class PlayerInfo
 	
 	private int kills;
 	public int getKills(){return kills;}
-	public void addkill(int kills){this.kills += kills;}
+	public void addKill(int kills){this.kills += kills;}
 	
 	private int deaths;
 	public int getDeaths(){return deaths;}
@@ -22,7 +22,7 @@ public class PlayerInfo
 	
 	public boolean isNamed(String name)
 	{
-		return name.equalsIgnoreCase(name);
+		return this.name.equalsIgnoreCase(name);
 	}
 	
 

@@ -65,5 +65,25 @@ public class Team
 		return false;
 	}
 	
+	/**
+	 * Get the PlayerInfo of a specified player
+	 * 
+	 * 
+	 * @param player The player you want the info for.
+	 * @return If true, returns player info, else null
+	 */
+	public PlayerInfo getPlayerInfo(Player player)
+	{
+		
+		for(PlayerInfo playerInfo : playerList)
+		{
+			if(playerInfo.isNamed(player.getName()))
+			{
+				return playerInfo;
+			}
+		}
+		return null;
+	}
+	
 
 }

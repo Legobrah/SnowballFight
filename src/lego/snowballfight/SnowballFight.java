@@ -1,24 +1,27 @@
 package lego.snowballfight;
 
-import org.bukkit.Location;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import lego.snowballfight.commands.CreateMatch;
+import lego.snowballfight.commands.Join;
+import lego.snowballfight.commands.SetSpawn;
 
 public class SnowballFight extends JavaPlugin
 {
-	private int matchID = 0;
 	private Match mainMatch;
+	public Match getMatch(){return mainMatch;};
+	public void setMatch(Match mainMatch){this.mainMatch = mainMatch;};
 	
 	
 	@Override
 	public void onEnable()
 	{
 		log("is now loaded...");
-        getCommand("creatematch").setExecutor(this);
-        getCommand("join").setExecutor(this);
-        getCommand("setspawn").setExecutor(this);
+		getServer().getPluginManager().registerEvents(new MatchListener(this), this);
+        getCommand("creatematch").setExecutor(new CreateMatch(this));
+        getCommand("join").setExecutor(new Join(this));
+        getCommand("setspawn").setExecutor(new SetSpawn(this));
         
 	}
 	
@@ -33,59 +36,9 @@ public class SnowballFight extends JavaPlugin
 		System.out.println("[SnowballFight] " + string);
 	}
 	
-	//Temporary code for debuging
-	@Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) 
-    {
-        if (!(sender instanceof Player))
-        {
-            return false;
-        }
-        
-        Player player = (Player) sender;
-        Location playerLoc = player.getLocation();
-        
-
-        if(cmd.getName().equalsIgnoreCase("creatematch"))
-        {
-
-        	if(args.length == 2)
-        	{
-        		mainMatch = new Match(matchID, args[0], Integer.parseInt(args[1]));
-        	}
-        	
-        	matchID++;
-        	return true;
-        	
-        }
-        else if(cmd.getName().equalsIgnoreCase("join"))
-        {
-        	mainMatch.joinPlayer(player);
-        }
-        else if(cmd.getName().equalsIgnoreCase("setspawn"))
-        {
-        	if(args[0].equalsIgnoreCase("team1"))
-        	{
-        		mainMatch.getArena().setSpawnLoc1(playerLoc);
-        		
-        		log("Team 1 spawn set!");
-        	}
-        	else if(args[0].equalsIgnoreCase("team2"))
-        	{
-        		mainMatch.getArena().setSpawnLoc2(playerLoc);
-        		
-        		log("Team 2 spawn set!");
-        	}
-        	else
-        	{
-        		log("Did not set spawn!");
-        	}
-        }
-        
-        return false;
-        
-    }
-
-
+	public static void announce(String string)
+	{
+		Bukkit.broadcastMessage("[SnowballFight] ");
+	}
         
 }

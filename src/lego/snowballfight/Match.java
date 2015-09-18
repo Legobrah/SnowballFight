@@ -50,16 +50,18 @@ public class Match
 	 */
 	private Team getTeamToJoin()
 	{
-		if(team1.getPlayerCount() < team2.getPlayerCount())
-		{
-			return team1;
-		}
-		else
-		{
-			return team2;
-		}
+		return (team1.getPlayerCount() < team2.getPlayerCount() ? team1 : team2);		
 		
-		
+	}
+	
+	/**
+	 * Check where the player should spawn
+	 * 
+	 * @return The location of the spawn
+	 */
+	public Location getSpawnLoc(Player player)
+	{
+		return (team1.isOnTeam(player)) ? arena.getSpawnLoc1() : arena.getSpawnLoc2();		
 	}
 	
 	/**
@@ -86,6 +88,7 @@ public class Match
 		}
 	}
 	
+	
 	/**
 	 * Adds player to the appropriate team
 	 * 
@@ -99,7 +102,7 @@ public class Match
 			teamToJoin.addPlayer(player);
 			teleportPlayer(player);
 		
-			SnowballFight.log(player.getName() + " has joined " + teamToJoin.getTeamName() + "!");
+			SnowballFight.announce(player.getName() + " has joined " + teamToJoin.getTeamName() + "!");
 		}
 		else
 		{
@@ -114,17 +117,11 @@ public class Match
 	 */
 	public void teleportPlayer(Player player)
 	{
-
-		if(team1.isOnTeam(player) && isSpawnValid(arena.getSpawnLoc1()))
+		Location spawn = getSpawnLoc(player);
+		if(isSpawnValid(spawn))
 		{
-			SnowballFight.log("Teleported to team1!");
-			player.teleport(arena.getSpawnLoc1());
-		}
-		else if(team2.isOnTeam(player) && isSpawnValid(arena.getSpawnLoc2()))
-		{
-			
-			SnowballFight.log("Teleported to team2!");
-			player.teleport(arena.getSpawnLoc2());
+			player.teleport(spawn);
+			SnowballFight.announce(player.getName() + " has spawned!");
 		}
 		else
 		{
@@ -141,6 +138,39 @@ public class Match
 	private boolean isSpawnValid(Location loc)
 	{
 		return loc != null;
+	}
+	
+	/**
+	 * Adds 1 death to players info
+	 * 
+	 * @param player The player you are modifying
+	 */
+	private void addDeath(Player player)
+	{
+		getPlayerTeam(player).getPlayerInfo(player).addDeath(1);
+	}
+	
+	/**
+	 * Adds 1 kill to players info
+	 * 
+	 * @param player The player you are modifying
+	 */
+	private void addKill(Player player)
+	{
+		getPlayerTeam(player).getPlayerInfo(player).addKill(1);
+	}
+	
+	/**
+	 * Updates player info
+	 * 
+	 * @param killer The killer
+	 * @param player The person that was killed
+	 */
+	public void onPlayerKill(Player killer, Player player)
+	{
+		SnowballFight.announce(killer + " has killed " + player + "!");
+		addKill(killer);
+		addDeath(player);
 	}
 	
 
