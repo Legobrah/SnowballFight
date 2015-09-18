@@ -50,7 +50,7 @@ public class Match
 	 */
 	private Team getTeamToJoin()
 	{
-		if(team1.getPlayerCount() > team2.getPlayerCount())
+		if(team1.getPlayerCount() < team2.getPlayerCount())
 		{
 			return team1;
 		}
@@ -70,11 +70,11 @@ public class Match
 	 */
 	public Team getPlayerTeam(Player player)
 	{
-		if(team1.checkIfOnTeam(player))
+		if(team1.isOnTeam(player))
 		{
 			return team1;
 		}
-		else if(team2.checkIfOnTeam(player))
+		else if(team2.isOnTeam(player))
 		{
 			return team2;
 		}
@@ -93,9 +93,18 @@ public class Match
 	 */
 	public void joinPlayer(Player player)
 	{
-		Team teamToJoin = getTeamToJoin();
-		teamToJoin.addPlayer(player);
-		teleportPlayer(player);
+		if(getPlayerTeam(player) == null)
+		{
+			Team teamToJoin = getTeamToJoin();
+			teamToJoin.addPlayer(player);
+			teleportPlayer(player);
+		
+			SnowballFight.log(player.getName() + " has joined " + teamToJoin.getTeamName() + "!");
+		}
+		else
+		{
+			SnowballFight.log(player.getName() + " is already on " + getPlayerTeam(player) + "!");
+		}
 	}
 	
 	/**
@@ -105,14 +114,16 @@ public class Match
 	 */
 	public void teleportPlayer(Player player)
 	{
-		Team playerTeam = getPlayerTeam(player);
-		
-		if(playerTeam.getTeamName() == "Team1" && checkIfSpawnValid(arena.getSpawnLoc1()))
+
+		if(team1.isOnTeam(player) && isSpawnValid(arena.getSpawnLoc1()))
 		{
+			SnowballFight.log("Teleported to team1!");
 			player.teleport(arena.getSpawnLoc1());
 		}
-		else if(playerTeam.getTeamName() == "Team2" && checkIfSpawnValid(arena.getSpawnLoc2()))
+		else if(team2.isOnTeam(player) && isSpawnValid(arena.getSpawnLoc2()))
 		{
+			
+			SnowballFight.log("Teleported to team2!");
 			player.teleport(arena.getSpawnLoc2());
 		}
 		else
@@ -127,16 +138,9 @@ public class Match
 	 * @param loc The location you are checking
 	 * @return True if valid, else false
 	 */
-	private boolean checkIfSpawnValid(Location loc)
+	private boolean isSpawnValid(Location loc)
 	{
-		if(loc != null)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return loc != null;
 	}
 	
 

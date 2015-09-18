@@ -20,5 +20,10 @@ public class PlayerInfo
 		this.deaths = 0;
 	}
 	
+	public boolean isNamed(String name)
+	{
+		return name.equalsIgnoreCase(name);
+	}
+	
 
 }

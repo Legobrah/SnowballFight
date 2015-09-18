@@ -1,17 +1,13 @@
 package lego.snowballfight;
 
-import java.util.logging.Logger;
-
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SnowballFight extends JavaPlugin
 {
-	public final Logger log = Logger.getLogger("Minecraft");
 	private int matchID = 0;
 	private Match mainMatch;
 	
@@ -19,19 +15,17 @@ public class SnowballFight extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
-		PluginDescriptionFile pdfFile = this.getDescription();
-        log.info(pdfFile.getName() + " Version " + pdfFile.getVersion() + " has been Enabled!");
+		log("is now loaded...");
         getCommand("creatematch").setExecutor(this);
-        System.out.println("debug");
+        getCommand("join").setExecutor(this);
+        getCommand("setspawn").setExecutor(this);
         
 	}
 	
 	@Override
 	public void onDisable()
 	{
-		PluginDescriptionFile pdfFile = this.getDescription();
-        log.info(pdfFile.getName() + " has been Disabled!");
-        
+        log("is now disabled...");
 	}
 	
 	public static void log(String string)
@@ -81,6 +75,10 @@ public class SnowballFight extends JavaPlugin
         		mainMatch.getArena().setSpawnLoc2(playerLoc);
         		
         		log("Team 2 spawn set!");
+        	}
+        	else
+        	{
+        		log("Did not set spawn!");
         	}
         }
         

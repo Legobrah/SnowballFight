@@ -53,16 +53,16 @@ public class Team
 	 * @param player The player being checked
 	 * @return If true, player is on team, else player is not on team
 	 */
-	public boolean checkIfOnTeam(Player player)
+	public boolean isOnTeam(Player player)
 	{
-		if(playerList.contains(player.getName()))
+		for(PlayerInfo playerInfo : playerList)
 		{
-			return true;
+			if(playerInfo.isNamed(player.getName()))
+			{
+				return true;
+			}
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 	
 
